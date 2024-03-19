@@ -24,7 +24,7 @@ export const AuthenticationToggle = () => {
   return (
     <div>
       {session.user.name} <br />
-      <img src={session.user.image || ''} alt="User icon" style={{ width: '24px', height: '24px' }} />
+      <img src={session.user.image || ''} alt="Usericonなし" style={{ width: '24px', height: '24px' }} />
       <br />
       <button onClick={() => signOut()}>Sign out</button>
     </div>
