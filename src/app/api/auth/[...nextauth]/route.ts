@@ -2,7 +2,7 @@ import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 
-import { users } from '~/app/signin/data/user';
+import { prisma } from '../../../../../api/server';
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -19,15 +19,19 @@ export const authOptions: NextAuthOptions = {
         email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
-
       async authorize(credentials, req) {
-        // TODO: まずはDB接続ではなくメールとパスワードでの認証を可能にする
-        const user = users.find((user) => user.email === credentials?.email && user.password === credentials?.password);
+        const user = await prisma.user.findUnique({
+          where: { email: credentials?.email },
+        });
 
-        if (user) {
-          const { id, name, email } = user;
-          return { id, name, email };
+        if (user && user.password === credentials?.password) {
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+          };
         }
+
         return null;
       },
     }),

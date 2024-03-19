@@ -24,3 +24,15 @@ model Article {
 
   @@map("articles")
 }
+
+// ユーザー情報を扱うモデル
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
