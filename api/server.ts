@@ -24,7 +24,7 @@ const initPrisma = () => {
   return db;
 };
 
-export const prisma = initPrisma();
+const prisma = initPrisma();
 
 // APIのURL http://localhost:8000/admin/articles
 // 作成が完了したら http://localhost:3000/admin にアクセスして確認してみましょう！

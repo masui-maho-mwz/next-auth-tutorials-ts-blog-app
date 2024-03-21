@@ -1,8 +1,9 @@
+import { PrismaClient } from '@prisma/client';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 
-import { prisma } from '../../../../../api/server';
+const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
   session: {

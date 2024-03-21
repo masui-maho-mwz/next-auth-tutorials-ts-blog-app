@@ -19,8 +19,6 @@ export const AuthenticationToggle = () => {
     );
   }
 
-  if (session.user.image === null) return null;
-
   return (
     <div>
       {session.user.name} <br />
