@@ -44,11 +44,6 @@ export default function SignInPage() {
   return (
     <div className={styles.container}>
       <h1 className={styles.heading}>Sign In</h1>
-      <div className={styles.buttonWrapper}>
-        <MyButton color="secondary" size="small" onClick={() => signIn('github', { callbackUrl: '/admin' })}>
-          Sign in with GitHub
-        </MyButton>
-      </div>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div>
           <label htmlFor="email">Email:</label>
