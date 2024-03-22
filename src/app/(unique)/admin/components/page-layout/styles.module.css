@@ -9,6 +9,7 @@
   padding: 0 1.5rem;
   background-color: rgb(var(--theme-primary));
   z-index: 100;
+  color: rgb(var(--theme-contrast));
 }
 .logo {
   color: rgb(var(--theme-contrast));
@@ -17,5 +18,5 @@
 }
 
 .header a {
-  color: white;
+  color: rgb(var(--theme-contrast));
 }

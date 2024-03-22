@@ -1,8 +1,9 @@
 'use client';
 
-import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 
-import { signOut, useSession } from 'next-auth/react';
+import { SignInButton } from '~/components/authentication/toggle-button/signin';
+import { SignOutButton } from '~/components/authentication/toggle-button/signout';
 
 export const AuthenticationToggle = () => {
   const { data: session, status } = useSession();
@@ -12,19 +13,7 @@ export const AuthenticationToggle = () => {
   }
 
   if (!session || !session.user) {
-    return (
-      <div>
-        Not signed in. <Link href="/signin">Sign in</Link>
-      </div>
-    );
+    return <SignInButton />;
   }
-
-  return (
-    <div>
-      {session.user.name} <br />
-      <img src={session.user.image || ''} alt="Usericonなし" style={{ width: '24px', height: '24px' }} />
-      <br />
-      <button onClick={() => signOut()}>Sign out</button>
-    </div>
-  );
+  return <SignOutButton />;
 };

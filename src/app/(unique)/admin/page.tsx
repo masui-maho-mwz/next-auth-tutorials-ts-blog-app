@@ -1,6 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { useSession } from 'next-auth/react';
 
 import { MyButton } from '~/components/elements/buttons/button';
 import { MyAlertMessage } from '~/components/surface/dialogs/alert-message';
@@ -11,8 +15,19 @@ import { MyArticleList } from './components/article-list';
 import { useHooks } from './hooks';
 
 export default function AdminPage() {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
   const { articles, fetchError, fetchStudyError, isLoading, deleteError, deleteStudyError, isDeleting, handleDelete } =
     useHooks();
+
+  useEffect(() => {
+    if (status === 'loading') return;
+
+    if (!session || !session.user) {
+      router.push('/');
+    }
+  }, [session, status, router]);
 
   return (
     <MyPageContainer>

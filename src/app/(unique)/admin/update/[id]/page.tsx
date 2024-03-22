@@ -1,5 +1,10 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { useSession } from 'next-auth/react';
+
 import { MyAlertMessage } from '~/components/surface/dialogs/alert-message';
 import { MyPageContainer } from '~/features/app/components/page-container';
 import { MyStudyAlert } from '~/features/app/components/study-alert';
@@ -14,6 +19,9 @@ type Params = {
 };
 
 export default function ArticleUpdatePage({ params }: { params: Params }) {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
   const {
     defaultValues,
     findError,
@@ -28,6 +36,14 @@ export default function ArticleUpdatePage({ params }: { params: Params }) {
     isDeleting,
     handleDelete,
   } = useHooks(params.id);
+
+  useEffect(() => {
+    if (status === 'loading') return;
+
+    if (!session || !session.user) {
+      router.push('/');
+    }
+  }, [session, status, router]);
 
   return (
     <MyPageContainer>

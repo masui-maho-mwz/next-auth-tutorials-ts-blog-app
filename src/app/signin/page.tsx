@@ -5,6 +5,10 @@ import { useEffect, useState } from 'react';
 
 import { signIn, useSession } from 'next-auth/react';
 
+import { MyButton } from '~/components/elements/buttons/button';
+
+import styles from './styles.module.css';
+
 export default function SignInPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -36,20 +40,39 @@ export default function SignInPage() {
       alert(`認証エラーです: ${result.error}`);
     }
   };
+
   return (
-    <div>
-      <h1>Sign In</h1>
-      <button onClick={() => signIn('github', { callbackUrl: '/admin' })}>Sign in with GitHub</button>
-      <form onSubmit={handleSubmit}>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>Sign In</h1>
+      <div className={styles.buttonWrapper}>
+        <MyButton color="secondary" size="small" onClick={() => signIn('github', { callbackUrl: '/admin' })}>
+          Sign in with GitHub
+        </MyButton>
+      </div>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <div>
           <label htmlFor="email">Email:</label>
-          <input id="email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <input
+            id="email"
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className={styles.input}
+          />
         </div>
         <div>
           <label htmlFor="password">Password:</label>
-          <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className={styles.input}
+          />
         </div>
-        <button type="submit">Sign in with Email and Password</button>
+        <MyButton color="secondary" size="small">
+          Sign in with Email and Password
+        </MyButton>
       </form>
     </div>
   );
