@@ -10,7 +10,7 @@
 
 ### 1. 環境変数の設定
 
-下記の環境変数用ファイルにNextAuthの環境変数を追記して下さい。
+下記の環境変数用ファイルのNextAuthの環境変数（`NEXTAUTH_SECRET`）に値を追記して下さい。
 
 - .docker/dev/.env.development
 
