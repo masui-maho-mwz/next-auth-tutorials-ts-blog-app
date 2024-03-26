@@ -18,9 +18,6 @@
   font-weight: bold;
 }
 
-.link {
-  color: rgb(var(--theme-foreground));
-}
 /*----- Main components -----*/
 .main {
   margin: 0 auto;

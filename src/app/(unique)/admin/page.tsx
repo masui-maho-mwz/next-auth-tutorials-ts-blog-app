@@ -25,7 +25,7 @@ export default function AdminPage() {
     if (status === 'loading') return;
 
     if (!session || !session.user) {
-      router.push('/');
+      router.push('/signin');
     }
   }, [session, status, router]);
 

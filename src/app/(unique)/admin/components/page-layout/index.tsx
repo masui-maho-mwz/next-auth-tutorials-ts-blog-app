@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 import { useSession } from 'next-auth/react';
 
-import { SignOutButton } from '~/components/authentication/toggle-button/signout';
+import { SignOutButton } from '~/components/elements/buttons/signout';
 import { MyContainer } from '~/features/app/components/container';
 
 import styles from './styles.module.css';
@@ -23,7 +23,7 @@ export const MyPageLayout = ({ children }: Props) => {
     if (status === 'loading') return;
 
     if (!session || !session.user) {
-      router.push('/');
+      router.push('/signin');
     }
   }, [session, status, router]);
 
