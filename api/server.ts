@@ -1,4 +1,5 @@
 import { Article, PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 import express from 'express';
 
 import { applyServerSettings } from './settings';
@@ -227,6 +228,33 @@ app.get('/articles/:id', async (req, res) => {
   };
 
   res.json({ data: article });
+});
+
+// ユーザー登録のエンドポイント
+app.post('/api/signup', async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    });
+
+    res.json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    });
+  } catch (error) {
+    console.error('Signup error:', error);
+    res.status(500).json({ message: 'ユーザー登録に失敗しました。' });
+  }
 });
 
 const sortArticlesByNewestFirst = (articles: Article[]) => {

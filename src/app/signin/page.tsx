@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -65,10 +66,15 @@ export default function SignInPage() {
             className={styles.input}
           />
         </div>
-        <MyButton color="secondary" size="small">
+        <MyButton color="primary" size="small">
           Sign in with Email and Password
         </MyButton>
       </form>
+      <p className={styles.registerPrompt}>
+        アカウントをお持ちでない方は、
+        <Link href="/signup">こちら</Link>
+        からユーザー登録をお願いいたします。
+      </p>
     </div>
   );
 }
