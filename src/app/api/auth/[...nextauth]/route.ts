@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -15,20 +16,24 @@ export const authOptions: NextAuthOptions = {
         email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials, req) {
-        const user = await prisma.user.findUnique({
-          where: { email: credentials?.email },
-        });
+      async authorize(credentials) {
+        try {
+          if (!credentials) return null;
 
-        if (user && user.password === credentials?.password) {
-          return {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-          };
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email },
+          });
+
+          if (!user) return null;
+
+          const isValid = await bcrypt.compare(credentials.password, user.password);
+
+          if (!isValid) return null;
+          return { id: user.id, name: user.name, email: user.email };
+        } catch (error) {
+          console.error('認証中にエラーが発生しました:', error);
+          return null;
         }
-
-        return null;
       },
     }),
   ],
