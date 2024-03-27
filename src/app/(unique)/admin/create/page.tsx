@@ -1,6 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+import { useSession } from 'next-auth/react';
 
 import { MyButton } from '~/components/elements/buttons/button';
 import { MyAlertMessage } from '~/components/surface/dialogs/alert-message';
@@ -13,6 +17,16 @@ import { useHooks } from './hooks';
 
 export default function ArticleCreatePage() {
   const { error, studyError, isCreating, handleSubmit } = useHooks();
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === 'loading') return;
+
+    if (!session || !session.user) {
+      router.push('/');
+    }
+  }, [session, status, router]);
   return (
     <MyPageContainer>
       <h1>新規記事作成</h1>
