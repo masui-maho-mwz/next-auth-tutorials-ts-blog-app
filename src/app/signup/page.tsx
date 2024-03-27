@@ -1,7 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+
+import { useSession } from 'next-auth/react';
 
 import { MyButton } from '~/components/elements/buttons/button';
 
@@ -17,6 +19,19 @@ export default function SignUpPage() {
   const initialFormData: SignUpData = { name: '', email: '', password: '' };
   const [formData, setFormData] = useState<SignUpData>(initialFormData);
   const router = useRouter();
+  const { data: session, status } = useSession();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    if (session) {
+      const callbackUrl = searchParams.get('callbackUrl') || '/admin';
+      router.push(callbackUrl);
+    }
+  }, [session, searchParams, router]);
+
+  if (status === 'loading') {
+    return <p>Loading...</p>;
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
